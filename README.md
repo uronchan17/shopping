@@ -1,24 +1,37 @@
-# README
+# テーブル設計
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## usersテーブル
 
-Things you may want to cover:
+| Column       | Type    | Option      |
+| ------------ | ------- | ----------- |
+| nickname     | string  | null: false |
+| phone_number | string  | null: false |
+| country_id   | integer | null: false |
 
-* Ruby version
+- has_many :buyers
 
-* System dependencies
+## catalogテーブル
+| Column      | Type    | Option      |
+| ----------- | ------- | ----------- |
+| items       | string  | null: false |
+| price       | integer | null: false |
+| explain     | text    | null: false |
+| stock       | integer | null: false |
+| category_id | integer | null: false |
 
-* Configuration
+## buyerテーブル
+| Column           | Type       | Option                        |
+| ---------------- | ---------- | ----------------------------- |
+| area_id          | integer    | null: false                   |
+| shipping_address | integer    | null: false                   |
+| payment          | integer    | null: false                   |
+| delivery_fee     | integer    | null: false                   |
+| delivery_days    | integer    | null: false                   |
+| user             | references | null: false foreign_key: true |
 
-* Database creation
+### Association
 
-* Database initialization
+- belongs_to :user
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
-
-* ...
