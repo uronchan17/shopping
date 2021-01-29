@@ -5,8 +5,8 @@ class Category < ActiveHash::Base
     { id: 3, name: '化粧品' },
     { id: 4, name: '海鮮' },
     { id: 5, name: '雑貨' },
-    { id: ６, name: 'その他' }
+    { id: 6, name: 'その他' }
   ]
   include ActiveHash::Associations
-  has_many :category
+  has_many :tops
 end
