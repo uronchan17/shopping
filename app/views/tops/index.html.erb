@@ -13,8 +13,9 @@
         <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/styles.css" rel="stylesheet" />
+        <%# <link href="css/styles.css" rel="stylesheet" /> %>
     </head>
+
     <body id="page-top">
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
@@ -37,7 +38,7 @@
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#catalog">catalog</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#purchase">purchase</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#education">新規商品登録(管理者用)</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#skills">商品入荷</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#skills">商品入荷(管理者用)</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#interests">Interests</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#awards">Awards</a></li>
                 </ul>
@@ -68,36 +69,45 @@
             </section>
             <hr class="m-0" />
             <!-- Experience-->
-            <section class="resume-section" id="purchase">
-                <% @top.each do | product | %>
-                    <li class='list'>
-                        <div class='item-img-content'>
-                            <%= image_tag product.image.variant(resize: '500x500'), class: "item-img" %>
-                        </div>
-                        <div class='item-info'>
-                            <h3 class='item-name'>
-                            <%= product.items %>
-                            </h3>
-                            <div class='item-price'>
-                            <span><%= product.price %>円</span>
+            <%= form_with model: @user_payment, url: tops_path, local: true do |f| %>
+                <section class="resume-section" id="purchase">
+                    <% @top.each do | top | %>
+                        <li class='list'>
+                            <div class='item-img-content'>
+                                <%= image_tag top.image.variant(resize: '500x500'), class: "item-img" %>
                             </div>
-                        </div>
-                        <div>
-                          在庫<%= product.stock %>個
-                          <select>
-                            <% num = 0 %>
-                            <% while num <= product.stock %>
-                              <option> <%= num %> </option>
-                              <% num = num +1 %>
-                            <% end %>
-                          </select>
-                        </div>
-                    </li>
-                <% end %>
-            </section>
-            <hr class="m-0" />
-            <!-- Education-->
-            <%= form_with model: @tops, url: tops_path, local: true do |f| %>
+                            <div class='item-info'>
+                                <h3 class='item-name'>
+                                <%= top.items %>
+                                </h3>
+                              <div class='item-price', id="item-price<%= top.id %>">
+                              <%= top.price %>
+                              </div>
+                              <span>円</span>
+                            </div>
+                            <div>
+                            在庫<%= top.stock %>個
+                            <%= f.number_field :"buy[#{top.id}]", value: 0, min: 0, max: top.stock, id:"Quantity#{top.id}", class:"Quantity"%>個
+                            </div>
+                        </li>
+                    <% end %>
+                    <div>配送先</div>
+                    <%= f.collection_select(:area_id, Area.all, :id, :name, {}, {class:"select-box", id:"item-category"}) %>
+                    <div>支払い方法</div>
+                    <%= f.collection_select(:payment_id, Payment.all, :id, :name, {}, {class:"select-box", id:"item-category"}) %>
+                            <div class="price-content">
+                    <div class="price-content">
+                      <span>購入金額 </span>
+                      <span>
+                          <span id='add-tax-price'></span>円
+                      </span>
+                    </div>
+                    <%= f.submit "購入する" %>
+                </section>
+            <% end %>
+                <hr class="m-0" />
+            <!-- 商品入荷-->
+            <%= form_with model: @user_payment, url: tops_path, local: true do |f| %>
                 <section class="resume-section" id="education">
                     <div>
                         <div>
@@ -157,12 +167,9 @@
                         <h3 class='item-name'>
                         <%= product.items %>
                         </h3>
-                        <div class='item-price'>
-                        <span><%= product.price %>円</span>
-                        </div>
                     </div>
                     <%= form_with model: product, url: top_path(product.id), local: true do |f| %>
-                      <%= f.text_field :stock, placeholder:"例）300" %>
+                      <%= f.text_field :stock, placeholder:"例）300", value: 0 %>
                       <%= f.submit "送信" %>
                     <% end %>
                 <% end %>
@@ -230,6 +237,6 @@
         <!-- Third party plugin JS-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
         <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
+        <%# <script src="js/scripts.js"></script> %>
     </body>
 </html>

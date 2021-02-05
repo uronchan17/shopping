@@ -23,7 +23,7 @@
 | Column           | Type       | Option                        |
 | ---------------- | ---------- | ----------------------------- |
 | area_id          | integer    | null: false                   |
-| shipping_address | integer    | null: false                   |
+| total_fee        | integer    | null: false                   |
 | payment          | integer    | null: false                   |
 | delivery_fee     | integer    | null: false                   |
 | delivery_days    | integer    | null: false                   |

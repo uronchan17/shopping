@@ -2,15 +2,22 @@ class TopsController < ApplicationController
   def index
     @top = Top.all
     @tops = Top.new
+    @buy = Buyer.new
+    @user_payment = UserPayment.new
   end
+
   def create
-    @tops = Top.new(tops_params)
-    if @tops.save
+    if params[:user_payment].has_key?(:items)
+      @user_payment = UserPayment.new(user_payment_params)
+      @user_payment.save_top
       redirect_to root_path
     else
-      render :index
+      @user_payment = UserPayment.new(user_payment_params)
+      @user_payment.save
+      redirect_to root_path
     end
   end
+
   def update
     @top = Top.find(params[:id])
     @tops = Top.new(stock_params)
@@ -20,10 +27,12 @@ class TopsController < ApplicationController
   end
 
   private
-  def tops_params
-    params.require(:top).permit(:items, :price, :explain, :image, :category_id).merge(stock: 0)
-  end
+
   def stock_params
     params.require(:top).permit(:stock)
+  end
+
+  def user_payment_params
+    params.require(:user_payment).permit!
   end
 end
