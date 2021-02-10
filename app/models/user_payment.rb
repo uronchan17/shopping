@@ -9,7 +9,23 @@ class UserPayment
   end
   
   def save
-    Buyer.create(area_id: area_id, payment_id: payment_id,)
+    # トータル価格の計算
+    total_fee = 0
+    buy.each{|key,value|
+      price_one = Top.find(key)
+      quantity_price = price_one.price * value.to_i
+      total_fee += quantity_price
+      }
+    # 購入商品リスト
+    list = ""
+    buy.each{|key,value|
+      unless value == "0" then
+      product = Top.find(key)
+      list += "#{product.items}が#{value}個\n"
+      end
+      }
+    Buyer.create(area_id: area_id, payment_id: payment_id, user_id: user_id, total_fee: total_fee, list: list, image: image)
+    # 在庫数の変動
     buy.each{|key,value|
       shipment = Top.find(key)
       ship = Top.new(stock: value)

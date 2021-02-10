@@ -10135,3 +10135,22 @@ section.resume-section .resume-section-content {
 .item-price {
   display: inline-block;
 }
+.archive {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.explain {
+  width: 250px;
+  word-break: break-all;
+}
+
+section.resume-section-a {
+  display: block;
+  align-items: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  max-width: 75rem;
+}

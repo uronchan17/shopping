@@ -35,46 +35,52 @@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#catalog">catalog</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#purchase">purchase</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#catalog">カタログ</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#purchase">購入画面</a></li>
+                    <% if current_user.user_level == 1 %>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#education">新規商品登録(管理者用)</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#skills">商品入荷(管理者用)</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#interests">Interests</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#interests">購入者情報</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#awards">Awards</a></li>
+                    <% end %>
                 </ul>
             </div>
         </nav>
         <!-- Page Content-->
         <div class="container-fluid p-0">
-            <!-- About-->
-            <section class="resume-section" id="catalog">
-                <% @top.each do | product | %>
-                    <li class='list'>
-                        <div class='item-img-content'>
-                            <%= image_tag product.image.variant(resize: '500x500'), class: "item-img" %>
-                        </div>
-                        <div class='item-info'>
-                            <h3 class='item-name'>
-                            <%= product.items %>
-                            </h3>
-                            <div class='item-price'>
-                            <span><%= product.price %>円</span>
+            <!-- カタログ-->
+            <section class="resume-section-a" id="catalog">
+                <div class="archive">
+                    <% @top.each do | product | %>
+                        <li class='list'>
+                            <div class='item-img-content'>
+                                <%= image_tag product.image.variant(resize: '250x250'), class: "item-img" %>
                             </div>
-                        </div>
-                        <div>
-                        在庫<%= product.stock %>個
-                        </div>
-                    </li>
-                <% end %>
+                            <div class='item-info'>
+                                <h3 class='item-name'>
+                                <%= product.items %>
+                                </h3>
+                                <div class='item-price'>
+                                <span><%= product.price %>円</span>
+                                </div>
+                            </div>
+                            <div>
+                            在庫<%= product.stock %>個
+                            </div>
+                            <div class="explain"><%= product.explain %></div>
+                        </li>
+                    <% end %>
+                </div>
             </section>
             <hr class="m-0" />
-            <!-- Experience-->
+            <!-- 購入画面-->
             <%= form_with model: @user_payment, url: tops_path, local: true do |f| %>
                 <section class="resume-section" id="purchase">
+                  <div class="archive">
                     <% @top.each do | top | %>
                         <li class='list'>
                             <div class='item-img-content'>
-                                <%= image_tag top.image.variant(resize: '500x500'), class: "item-img" %>
+                                <%= image_tag top.image.variant(resize: '250x250'), class: "item-img" %>
                             </div>
                             <div class='item-info'>
                                 <h3 class='item-name'>
@@ -91,6 +97,7 @@
                             </div>
                         </li>
                     <% end %>
+                  </div>
                     <div>配送先</div>
                     <%= f.collection_select(:area_id, Area.all, :id, :name, {}, {class:"select-box", id:"item-category"}) %>
                     <div>支払い方法</div>
@@ -102,10 +109,17 @@
                           <span id='add-tax-price'></span>円
                       </span>
                     </div>
+                    <div>
+                    注文表
+                    </div>
+                    <div>
+                    <%= f.file_field :image, id:"item-image" %>
+                    </div>
                     <%= f.submit "購入する" %>
                 </section>
             <% end %>
                 <hr class="m-0" />
+            <% if current_user.user_level == 1 %>
             <!-- 商品入荷-->
             <%= form_with model: @user_payment, url: tops_path, local: true do |f| %>
                 <section class="resume-section" id="education">
@@ -156,12 +170,13 @@
                 </section>
             <% end %>
             <hr class="m-0" />
-            <!-- Skills-->
+            <!-- 商品入荷-->
             <section class="resume-section" id="skills">
+              <div class="archive">
                 <% @top.each do | product | %>
                     <li class='list'>
                     <div class='item-img-content'>
-                        <%= image_tag product.image.variant(resize: '500x500'), class: "item-img" %>
+                        <%= image_tag product.image.variant(resize: '250x250'), class: "item-img" %>
                     </div>
                     <div class='item-info'>
                         <h3 class='item-name'>
@@ -173,17 +188,50 @@
                       <%= f.submit "送信" %>
                     <% end %>
                 <% end %>
+              </div>
             </section>
             <hr class="m-0" />
-            <!-- Interests-->
-            <section class="resume-section" id="interests">
-                <div class="resume-section-content">
-                    <h2 class="mb-5">Interests</h2>
-                    <p>Apart from being a web developer, I enjoy most of my time being outdoors. In the winter, I am an avid skier and novice ice climber. During the warmer months here in Colorado, I enjoy mountain biking, free climbing, and kayaking.</p>
-                    <p class="mb-0">When forced indoors, I follow a number of sci-fi and fantasy genre movies and television shows, I am an aspiring chef, and I spend a large amount of my free time exploring the latest technology advancements in the front-end web development world.</p>
+            <!-- 購入者情報-->
+            <section class="resume-section-a" id="interests">
+                <div class="archive">
+                    <% @buyer.each do | product | %>
+                        <li class='list'>
+                            <% if product.image.attached? %>
+                            <div class='item-img-content'>
+                            <%= image_tag product.image.variant(resize: '250x250'), class: "item-img" %>
+                            </div>
+                            <% end %>
+                            <div class='item-info'>
+                                <div class='item-name'>
+                                <%= product.area.name %>
+                                </div>
+                                <div class='item-name'>
+                                <%= product.total_fee %>円
+                                </div>
+                                <div class='item-price'>
+                                <span><%= product.payment.name %></span>
+                                </div>
+                            </div>
+                            <div>
+                            <%= product.user.nickname %>様
+                            </div>
+                            <div class="explain">
+                            <%= simple_format(product.list) %>
+                            </div>
+                            <% if product.check1 == 1 %>
+                                <h6>配送完了済み<h6>
+                            <% else %>
+                                <div class="explain">
+                                <%= form_with model: product, url: top_path(product.id), local: true do |f| %>
+                                配送が完了後チェック<%= f.check_box :check1, {class: "check_box"} %>
+                                <%= f.submit "送信" %>
+                                </div>
+                                <% end %>
+                            <% end %>
+                        </li>
+                    <% end %>
                 </div>
             </section>
-            <hr class="m-0" />
             <!-- Awards-->
             <section class="resume-section" id="awards">
                 <div class="resume-section-content">
@@ -230,6 +278,7 @@
                     </ul>
                 </div>
             </section>
+            <% end %>
         </div>
         <!-- Bootstrap core JS-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

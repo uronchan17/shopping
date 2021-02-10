@@ -3,6 +3,7 @@ class TopsController < ApplicationController
     @top = Top.all
     @tops = Top.new
     @buy = Buyer.new
+    @buyer = Buyer.all.order('created_at DESC')
     @user_payment = UserPayment.new
   end
 
@@ -19,11 +20,19 @@ class TopsController < ApplicationController
   end
 
   def update
-    @top = Top.find(params[:id])
-    @tops = Top.new(stock_params)
-    @top.increment(:stock, @tops.stock)
-    @top.save
-    redirect_to root_path
+    if params[:buyer].has_key?(:check1)
+      @buy = Buyer.find(params[:id])
+      @buys = Buyer.new(check_params)
+      @buy.check1 = @buys.check1
+      @buy.save
+      redirect_to root_path
+    else
+      @top = Top.find(params[:id])
+      @tops = Top.new(stock_params)
+      @top.increment(:stock, @tops.stock)
+      @top.save
+      redirect_to root_path
+    end
   end
 
   private
@@ -32,7 +41,11 @@ class TopsController < ApplicationController
     params.require(:top).permit(:stock)
   end
 
+  def check_params
+    params.require(:buyer).permit(:check1)
+  end
+
   def user_payment_params
-    params.require(:user_payment).permit!
+    params.require(:user_payment).permit!.merge(user_id: current_user.id)
   end
 end
