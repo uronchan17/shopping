@@ -37,12 +37,12 @@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#catalog" >カタログ</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#catalog" data-turbolinks="false">カタログ</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#purchase" data-turbolinks="false">購入画面</a></li>
                     <% if current_user.user_level == 1 %>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#education">新規商品登録(管理者用)</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#skills">商品入荷(管理者用)</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#interests">購入者情報</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#education" data-turbolinks="false">新規商品登録(管理者用)</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#skills" data-turbolinks="false">商品入荷(管理者用)</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#interests" data-turbolinks="false">購入者情報</a></li>
                     <% end %>
                 </ul>
             </div>
@@ -113,6 +113,7 @@
                     <div>
                     注文表
                     </div>
+                    <%= f.file_field :image, id:"item-image" %>
                     <div class="archive">
                     <div id="example" class="handsontable"></div>
                     <%= f.submit "購入する" %>
@@ -212,11 +213,18 @@
                                 <span><%= product.payment.name %></span>
                                 </div>
                             </div>
-                            <div>
+                            <h3>
                             <%= product.user.nickname %>様
-                            </div>
+                            </h3>
                             <div class="explain">
-                            <%= simple_format(product.list) %>
+                            <% current_id = product.id %>
+                            <% purchase_list = BuyerTop.where("buyer_id = #{current_id}") %>
+                                <% purchase_list.each do | buy | %>
+                                <% purchase_object = Top.find(buy.top_id) %>
+                                <div>
+                                <%= purchase_object.items %>、<%= buy.tops_quantity %>個
+                                </div>
+                                <% end %>
                             </div>
                             <% if product.check1 == 1 %>
                                 <h6>配送完了済み<h6>

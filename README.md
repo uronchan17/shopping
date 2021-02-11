@@ -10,7 +10,7 @@
 
 - has_many :buyers
 
-## catalogテーブル
+## topテーブル
 | Column      | Type    | Option      |
 | ----------- | ------- | ----------- |
 | items       | string  | null: false |
@@ -18,6 +18,8 @@
 | explain     | text    | null: false |
 | stock       | integer | null: false |
 | category_id | integer | null: false |
+
+- has_many :buyers, through: buyer_tops
 
 ## buyerテーブル
 | Column           | Type       | Option                        |
@@ -32,6 +34,16 @@
 ### Association
 
 - belongs_to :user
+- has_many :tops, through: buyer_tops
 
+### buyer_topsテーブル
+| Column        | Type       | Option                         |
+| ------------- | ---------- | ------------------------------ |
+| buyer         | references | null: false, foreign_key: true |
+| top           | references | null: false, foreign_key: true |
+| tops quantity | integer    | null: false                    |
 
+### Association
 
+- belongs_to :buyer
+- belongs_to :top

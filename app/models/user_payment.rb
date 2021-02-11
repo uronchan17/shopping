@@ -17,14 +17,22 @@ class UserPayment
       total_fee += quantity_price
       }
     # 購入商品リスト
-    list = ""
+    list = []
+    quantity = []
     buy.each{|key,value|
-      unless value == "0" then
-      product = Top.find(key)
-      list += "#{product.items}が#{value}個\n"
-      end
+      list << key.to_i
+      quantity << value.to_i
       }
-    Buyer.create(area_id: area_id, payment_id: payment_id, user_id: user_id, total_fee: total_fee, list: list, image: image)
+    Buyer.create(area_id: area_id, payment_id: payment_id, user_id: user_id, total_fee: total_fee, image: image, top_ids: list)
+    last = BuyerTop.last
+    last_buyer_id = last.buyer_id
+    buyerid = BuyerTop.where("buyer_id = #{last_buyer_id}")
+    i = 0
+    buyerid.each do | buy |
+      buy.tops_quantity = quantity[i]
+      buy.save
+      i += 1
+    end
     # 在庫数の変動
     buy.each{|key,value|
       shipment = Top.find(key)
