@@ -133,7 +133,7 @@
                             <p>
                             クリックしてファイルをアップロード
                             </p>
-                            <%= f.file_field :image, id:"item-image" %>
+                            <%= f.file_field :image, id:"item-images" %>
                         </div>
                     </div>
                     <div>
@@ -162,10 +162,10 @@
                             カテゴリー
                             <span>必須</span>
                         </div>
-                        <%= f.collection_select(:category_id, Category.all, :id, :name, {}, {class:"select-box", id:"item-category"}) %>
+                        <%= f.collection_select(:category_id, Category.all, :id, :name, {}, {class:"select-box", id:"item-category1"}) %>
                     </div>
                     <div>
-                    <%= f.submit "出品する" %>
+                    <%= f.submit "出品する", name:"commit1" %>
                     <%=link_to 'もどる', root_path%>
                     </div>
                 </section>
