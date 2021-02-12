@@ -34,9 +34,9 @@ ActiveRecord::Schema.define(version: 2021_02_11_013753) do
   end
 
   create_table "buyer_tops", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "top_id"
-    t.bigint "buyer_id"
-    t.integer "tops_quantity"
+    t.bigint "top_id", null: false
+    t.bigint "buyer_id", null: false
+    t.integer "tops_quantity", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["buyer_id"], name: "index_buyer_tops_on_buyer_id"
@@ -52,7 +52,6 @@ ActiveRecord::Schema.define(version: 2021_02_11_013753) do
     t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.text "list"
     t.integer "check1"
     t.index ["user_id"], name: "index_buyers_on_user_id"
   end

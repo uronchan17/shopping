@@ -3,10 +3,10 @@ class UserPayment
   attr_accessor :area_id, :total_fee, :payment_id, :user_id, :items, :price, :explain, :image, :category_id, :stock, :buy
 
   with_options presence: true do
-    validates :price
+    validates :price, numericality: true
     validates :explain
     validates :image
-    validates :area_id
+    validates :area_id, numericality: { only_integer: true }
   end
 
   def save

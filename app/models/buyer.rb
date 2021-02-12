@@ -6,4 +6,9 @@ class Buyer < ApplicationRecord
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to :area
   belongs_to :payment
+  with_options presence: true do
+    validates :total_fee, numericality: true
+    validates :payment_id, numericality: { only_integer: true }
+    validates :area_id, numericality: { only_integer: true }
+  end
 end
