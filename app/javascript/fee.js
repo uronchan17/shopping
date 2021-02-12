@@ -80,6 +80,5 @@ function list (){
       }
   },
   });
-  
 }
 window.addEventListener('load', list);

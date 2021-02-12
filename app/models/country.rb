@@ -7,8 +7,8 @@ class Country < ActiveHash::Base
     { id: 5, name: '中国' },
     { id: 6, name: '韓国' },
     { id: 7, name: 'マレーシア' },
-    { id: 8, name: 'インドネシア' },
+    { id: 8, name: 'インドネシア' }
   ]
   include ActiveHash::Associations
   has_many :users
-  end
+end

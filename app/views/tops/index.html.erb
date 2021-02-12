@@ -221,9 +221,11 @@
                             <% purchase_list = BuyerTop.where("buyer_id = #{current_id}") %>
                                 <% purchase_list.each do | buy | %>
                                 <% purchase_object = Top.find(buy.top_id) %>
+                                <% if buy.tops_quantity != 0 %>
                                 <div>
                                 <%= purchase_object.items %>、<%= buy.tops_quantity %>個
                                 </div>
+                                <% end %>
                                 <% end %>
                             </div>
                             <% if product.check1 == 1 %>

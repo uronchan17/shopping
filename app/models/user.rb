@@ -4,7 +4,7 @@ class User < ApplicationRecord
   has_many :buyers
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  
+
   VALID_PHONE_REGEX = /\A\d{10}$|^\d{11}\z/
   with_options presence: true do
     validates :nickname
