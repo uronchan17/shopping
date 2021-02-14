@@ -16,3 +16,4 @@ RUN bundle install
 
 #既存railsプロジェクトをコンテナ内にコピー
 COPY . /myproject
+CMD ["rails", "server", "-b", "0.0.0.0"] 
