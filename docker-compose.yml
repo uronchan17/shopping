@@ -10,7 +10,7 @@ services:
     ports:
       - "4306:3306"  #両方3306でもok。詳細は下の「番外編：DBをsequel proで可視化したい」へ
 
-  app:
+  web:
     tty: true          #コンテナ上でbinding.pryするために必要
     stdin_open: true   #コンテナ上でbinding.pryするために必要
     build: .
