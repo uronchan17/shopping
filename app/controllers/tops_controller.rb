@@ -20,7 +20,7 @@ class TopsController < ApplicationController
   end
 
   def update
-    if params.has_key?(:check1)
+    if params.has_key?(:buyer)
       @buy = Buyer.find(params[:id])
       @buys = Buyer.new(check_params)
       @buy.check1 = @buys.check1
