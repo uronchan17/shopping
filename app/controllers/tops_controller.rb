@@ -35,6 +35,11 @@ class TopsController < ApplicationController
     end
   end
 
+  def show
+    @top = Top.find(params[:id])
+  end
+
+
   private
 
   def stock_params
