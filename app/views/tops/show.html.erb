@@ -1,0 +1,17 @@
+<li class='list'>
+    <div class='item-img-content'>
+        <%= image_tag @top.image.variant(resize: '250x250'), class: "item-img" %>
+    </div>
+    <div class='item-info'>
+        <h3 class='item-name'>
+        <%= @top.items %>
+        </h3>
+        <div class='item-price'>
+        <span><%= @top.price %>円</span>
+        </div>
+    </div>
+    <div>
+    在庫<%= @top.stock %>個
+    </div>
+    <div class="explain"><%= @top.explain %></div>
+</li>
