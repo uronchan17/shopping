@@ -77,6 +77,7 @@
             <%= form_with model: @user_payment, url: tops_path, local: true do |f| %>
                 <section class="resume-section" id="purchase">
                   <div class="archive">
+                    <% i = 1 %>
                     <% @top.each do | top | %>
                         <li class='list'>
                             <div class='item-img-content'>
@@ -86,22 +87,23 @@
                                 <h3 class='item-name'>
                                 <%= top.items %>
                                 </h3>
-                              <div class='item-price', id="item-price<%= top.id %>">
+                              <div class='item-price', id="item-price<%= i %>">
                               <%= top.price %>
                               </div>
                               <span>円</span>
                             </div>
                             <div>
                             在庫<%= top.stock %>個
-                            <%= f.number_field :"buy[#{top.id}]", value: 0, min: 0, max: top.stock, id:"Quantity#{top.id}", class:"Quantity"%>個
+                            <%= f.number_field :"buy[#{top.id}]", value: 0, min: 0, max: top.stock, id:"Quantity#{i}", class:"Quantity"%>個
                             </div>
+                            <% i += 1 %>
                         </li>
                     <% end %>
                   </div>
                     <div>配送先</div>
                     <%= f.collection_select(:area_id, Area.all, :id, :name, {}, {class:"select-box", id:"item-category"}) %>
                     <div>支払い方法</div>
-                    <%= f.collection_select(:payment_id, Payment.all, :id, :name, {}, {class:"select-box", id:"item-category"}) %>
+                    <%= f.collection_select(:payment_id, Payment.all, :id, :name, {}, {class:"select-box", id:"itemcategory"}) %>
                             <div class="price-content">
                     <div class="price-content">
                       <span>購入金額 </span>
