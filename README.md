@@ -7,6 +7,8 @@
 # URL
 ### https://infinite-reaches-43626.herokuapp.com/
 # テスト用アカウント
+#### ユーザー名 a@a
+#### パスワード 111@@@
 
 # 利用方法
 #### ログインする
